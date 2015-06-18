@@ -165,7 +165,9 @@
             // independent of the display link's lifetime. Upon image view deallocation, we invalidate the display
             // link which will lead to the deallocation of both the display link and the weak proxy.
             FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
-            self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
+            if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 7) {
+				self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
+            }
             
             NSString *mode = NSDefaultRunLoopMode;
             // Enable playback during scrolling by allowing timer events (i.e. animation) with `NSRunLoopCommonModes`.
